@@ -51,6 +51,14 @@ steps:
     projects: '**/*.csproj'
 
 - task: DotNetCoreCLI@2
+  displayName: 'Run unit tests - $(buildConfiguration)'
+  inputs:
+    command: 'test'
+    arguments: '--no-build --configuration $(buildConfiguration)'
+    publishTestResults: true # Esse argumento informa ao pipeline para gerar o arquivo TRX para um diretório temporário, acessível por meio da variável interna $(Agent.TempDirectory).
+    projects: '**/*.Tests.csproj'
+
+- task: DotNetCoreCLI@2
   displayName: 'Publish the project - $(buildConfiguration)'
   inputs:
     command: 'publish'
